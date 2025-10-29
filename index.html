@@ -443,11 +443,11 @@
 
         /* Analysis Result */
         .analysis-result {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
+            background: var(--surface);
             border-radius: var(--radius-lg);
             padding: 20px;
             margin-top: 20px;
+            border: 1px solid var(--border);
         }
 
         .analysis-grid {
@@ -458,10 +458,9 @@
         }
 
         .analysis-item {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--background);
             padding: 16px;
             border-radius: var(--radius-md);
-            backdrop-filter: blur(10px);
         }
 
         .analysis-label {
@@ -472,6 +471,68 @@
 
         .analysis-value {
             font-size: 17px;
+            font-weight: 600;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .dashboard-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .dashboard-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .bar-label {
+            width: 100px;
+            font-size: 14px;
+        }
+
+        .bar-container {
+            flex: 1;
+            height: 20px;
+            background: var(--background);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .bar-value {
+            width: 40px;
+            text-align: right;
+            font-size: 14px;
             font-weight: 600;
         }
 
@@ -495,7 +556,9 @@
             border-radius: var(--radius-lg);
             padding: 20px;
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
             box-shadow: var(--shadow-xl);
         }
 
@@ -515,6 +578,7 @@
         .modal-actions {
             display: flex;
             gap: 12px;
+            margin-top: 20px;
         }
 
         .modal-actions .ios-button {
@@ -540,6 +604,40 @@
 
         .ios-toast.show {
             opacity: 1;
+        }
+
+        /* Children List */
+        .children-list {
+            margin-top: 12px;
+        }
+
+        .child-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .child-item:last-child {
+            border-bottom: none;
+        }
+
+        .child-age {
+            flex: 1;
+        }
+
+        .remove-child {
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
 
         /* Animations */
@@ -575,6 +673,10 @@
             
             .analysis-grid {
                 grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .dashboard {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
@@ -658,7 +760,7 @@
                     <div class="step-indicator">
                         <div class="step active" id="step1">
                             <div class="step-icon">📋</div>
-                            <span>พื้นฐาน</span>
+                            <span>สรุป</span>
                         </div>
                         <div class="step" id="step2">
                             <div class="step-icon">👤</div>
@@ -681,11 +783,11 @@
 
                 <!-- Customer Form -->
                 <form id="customerForm">
-                    <!-- Basic Information -->
+                    <!-- 1.1 สรุปข้อมูลลูกค้า (Customer Summary) -->
                     <div class="form-section">
                         <div class="section-header">
                             <div class="section-icon">📋</div>
-                            <h3 class="section-title">ข้อมูลพื้นฐาน</h3>
+                            <h3 class="section-title">สรุปข้อมูลลูกค้า</h3>
                         </div>
                         
                         <div class="ios-form-group">
@@ -694,51 +796,44 @@
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">ชื่อพนักงาน</label>
-                            <input type="text" class="ios-input" id="employeeName" required>
+                            <label class="ios-label">ชื่อ</label>
+                            <input type="text" class="ios-input" id="fullName" required>
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">Zone</label>
-                            <select class="ios-select" id="employeeZone" required>
-                                <option value="">เลือก Zone</option>
-                                <option value="ratchaburi">ราชบุรี</option>
-                                <option value="suratthani">สุราษฎร์ธานี</option>
-                                <option value="hatyai">หาดใหญ่</option>
-                                <option value="phuket">ภูเก็ต</option>
-                                <option value="samutsakorn">สมุทรสาคร</option>
-                            </select>
+                            <label class="ios-label">ชื่อเล่น</label>
+                            <input type="text" class="ios-input" id="nickname">
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">ชื่อลูกค้า</label>
-                            <input type="text" class="ios-input" id="customerName" required>
+                            <label class="ios-label">ผู้ดูแล (สูงสุด 3 คน)</label>
+                            <textarea class="ios-input" id="managers" rows="3" placeholder="ระบุชื่อผู้ดูแล"></textarea>
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">ลักษณะลูกค้า</label>
+                            <label class="ios-label">เลือกลักษณะลูกค้า (เลือกอย่างน้อย 2)</label>
                             <div class="customer-type-grid">
                                 <div class="customer-type-card" data-type="goal_oriented">
                                     <h4>🎯 เป้าประสงค์</h4>
                                     <p>มีเป้าหมายชัดเจน</p>
                                 </div>
-                                <div class="customer-type-card" data-type="celebrity">
-                                    <h4>⭐ หนึ่งดารา</h4>
-                                    <p>ชอบความโดดเด่น</p>
-                                </div>
                                 <div class="customer-type-card" data-type="analytical">
                                     <h4>🧮 คิดคำนวณ</h4>
                                     <p>ตัดสินใจด้วยข้อมูล</p>
                                 </div>
+                                <div class="customer-type-card" data-type="celebrity">
+                                    <h4>⭐ หนึ่งดารา</h4>
+                                    <p>ชอบความโดดเด่น</p>
+                                </div>
                                 <div class="customer-type-card" data-type="conservative">
-                                    <h4>🛡️ ถนอมจิตร</h4>
+                                    <h4>🛡️ ถนอมจิต</h4>
                                     <p>ระมัดระวัง</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Personal Information -->
+                    <!-- 1.2 ส่วนตัว (Personal Information) -->
                     <div class="form-section">
                         <div class="section-header">
                             <div class="section-icon">👤</div>
@@ -746,29 +841,145 @@
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">อาชีพ</label>
-                            <select class="ios-select" id="occupation">
-                                <option value="">เลือกอาชีพ</option>
-                                <option value="government">ข้าราชการ</option>
-                                <option value="business_owner">ธุรกิจส่วนตัว</option>
-                                <option value="employee">พนักงานบริษัท</option>
-                                <option value="freelance">อาชีพอิสระ</option>
+                            <label class="ios-label">เป้าหมาย (ระยะสั้น-กลาง-ยาว)</label>
+                            <textarea class="ios-input" id="goals" rows="3" placeholder="ระบุเป้าหมายในแต่ละช่วงเวลา"></textarea>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">เพศ</label>
+                            <select class="ios-select" id="gender" required>
+                                <option value="">เลือกเพศ</option>
+                                <option value="male">ชาย</option>
+                                <option value="female">หญิง</option>
                                 <option value="other">อื่นๆ</option>
                             </select>
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">รายได้สุทธิ/ปี (บาท)</label>
-                            <input type="number" class="ios-input" id="netIncome" placeholder="0">
+                            <label class="ios-label">อายุ</label>
+                            <input type="number" class="ios-input" id="age" min="0" max="120" required>
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">ทรัพย์สินรวม (บาท)</label>
-                            <input type="number" class="ios-input" id="totalAssets" placeholder="0">
+                            <label class="ios-label">สถานภาพ</label>
+                            <select class="ios-select" id="maritalStatus" required>
+                                <option value="">เลือกสถานภาพ</option>
+                                <option value="single">โสด</option>
+                                <option value="married">สมรส</option>
+                                <option value="divorced">หย่า</option>
+                                <option value="widowed">หม้าย</option>
+                            </select>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">อาชีพ</label>
+                            <input type="text" class="ios-input" id="occupation" required>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">รายได้สุทธิ/ปี (บาท)</label>
+                            <input type="number" class="ios-input" id="netIncome" placeholder="0" required>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">สวัสดิการจากงาน</label>
+                            <select class="ios-select" id="employmentBenefits">
+                                <option value="">เลือกสวัสดิการ</option>
+                                <option value="no_benefits">ไม่มีสวัสดิการ</option>
+                                <option value="basic">Basic</option>
+                                <option value="good">Good</option>
+                                <option value="executive">Executive</option>
+                            </select>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">หนี้สินรายเดือน (บาท)</label>
+                            <input type="number" class="ios-input" id="monthlyLiabilities" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">ระดับการรับความเสี่ยง</label>
+                            <select class="ios-select" id="riskAppetite">
+                                <option value="">เลือกระดับ</option>
+                                <option value="low">ต่ำ</option>
+                                <option value="medium">กลาง</option>
+                                <option value="high">สูง</option>
+                            </select>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">อสังหาริมทรัพย์ (ประเภท + มูลค่ารวม)</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                <input type="text" class="ios-input" id="propertyType" placeholder="ประเภท">
+                                <input type="number" class="ios-input" id="propertyValue" placeholder="มูลค่ารวม">
+                            </div>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">ยานพาหนะ (ประเภท + มูลค่ารวม)</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                                <input type="text" class="ios-input" id="vehicleType" placeholder="ประเภท">
+                                <input type="number" class="ios-input" id="vehicleValue" placeholder="มูลค่ารวม">
+                            </div>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">เงินฝาก (บาท)</label>
+                            <input type="number" class="ios-input" id="deposits" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">หุ้นกู้ (บาท)</label>
+                            <input type="number" class="ios-input" id="bonds" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">กองทุน (บาท)</label>
+                            <input type="number" class="ios-input" id="funds" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">บัตรเครดิต (ยอดคงเหลือรวม)</label>
+                            <input type="number" class="ios-input" id="creditCardBalance" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">สินเชื่อ (ยอดคงเหลือรวม)</label>
+                            <input type="number" class="ios-input" id="loanBalance" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">ประกันชีวิต (ส่วนตัว) - ชื่อแบบ / ทุน / เบี้ย</label>
+                            <textarea class="ios-input" id="lifeInsurance" rows="3" placeholder="ระบุชื่อแบบประกัน, ทุนประกัน, เบี้ยประกัน"></textarea>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">AUM ttb (บาท)</label>
+                            <input type="number" class="ios-input" id="aumTtb" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">AUM ที่อื่น (บาท)</label>
+                            <input type="number" class="ios-input" id="aumOther" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">Lifestyle</label>
+                            <textarea class="ios-input" id="lifestyle" rows="3" placeholder="พฤติกรรมการใช้ชีวิต"></textarea>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">Sensitive Issue</label>
+                            <textarea class="ios-input" id="sensitiveIssue" rows="3" placeholder="ประเด็นอ่อนไหว / ความกังวล"></textarea>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">รายละเอียดอื่น ๆ</label>
+                            <textarea class="ios-input" id="otherDetails" rows="3" placeholder="รายละเอียดเพิ่มเติม"></textarea>
                         </div>
                     </div>
 
-                    <!-- Family Information -->
+                    <!-- 1.3 ครอบครัว (Family) -->
                     <div class="form-section">
                         <div class="section-header">
                             <div class="section-icon">👨‍👩‍👧‍👦</div>
@@ -776,23 +987,63 @@
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">จำนวนบุตร</label>
-                            <input type="number" class="ios-input" id="childrenCount" placeholder="0">
+                            <label class="ios-label">คู่สมรส อายุ</label>
+                            <input type="number" class="ios-input" id="spouseAge" placeholder="อายุ">
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">สถานะสมรส</label>
-                            <select class="ios-select" id="maritalStatus">
-                                <option value="">เลือกสถานะ</option>
-                                <option value="single">โสด</option>
-                                <option value="married">สมรส</option>
-                                <option value="divorced">หย่า</option>
-                                <option value="widowed">หม้าย</option>
-                            </select>
+                            <label class="ios-label">อาชีพคู่สมรส</label>
+                            <input type="text" class="ios-input" id="spouseOccupation" placeholder="อาชีพ">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">จำนวนบุตร</label>
+                            <input type="number" class="ios-input" id="childrenCount" placeholder="0" min="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">อายุบุตร</label>
+                            <div style="display: flex; gap: 8px;">
+                                <input type="number" class="ios-input" id="childAgeInput" placeholder="อายุบุตร" min="0" max="120">
+                                <button type="button" class="ios-button" onclick="addChildAge()" style="min-width: 80px;">เพิ่ม</button>
+                            </div>
+                            <div class="children-list" id="childrenAgesList"></div>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">อาชีพบุตร</label>
+                            <input type="text" class="ios-input" id="childrenOccupation" placeholder="อาชีพ">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">จำนวนหลาน</label>
+                            <input type="number" class="ios-input" id="grandchildrenCount" placeholder="0" min="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">บุคคลอื่นที่เกี่ยวข้อง</label>
+                            <textarea class="ios-input" id="otherRelatives" rows="2" placeholder="ระบุบุคคลอื่นที่เกี่ยวข้อง"></textarea>
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">ผู้มีอำนาจตัดสินใจ</label>
+                            <input type="text" class="ios-input" id="decisionMaker" placeholder="ชื่อผู้มีอำนาจตัดสินใจ">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">รูปแบบกงสี</label>
+                            <div style="display: flex; gap: 16px;">
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="radio" name="kongsi" value="yes"> มี
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px;">
+                                    <input type="radio" name="kongsi" value="no"> ไม่มี
+                                </label>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Business Information -->
+                    <!-- 1.4 ข้อมูลธุรกิจ (Business) -->
                     <div class="form-section">
                         <div class="section-header">
                             <div class="section-icon">🏢</div>
@@ -800,17 +1051,54 @@
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">มีธุรกิจส่วนตัว</label>
-                            <select class="ios-select" id="hasBusiness">
-                                <option value="">เลือก</option>
-                                <option value="yes">มี</option>
-                                <option value="no">ไม่มี</option>
+                            <label class="ios-label">ชื่อกิจการ</label>
+                            <input type="text" class="ios-input" id="businessName" placeholder="ชื่อกิจการ">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">ประเภทกิจการ</label>
+                            <select class="ios-select" id="businessType">
+                                <option value="">เลือกประเภทกิจการ</option>
+                                <option value="trading">Trading</option>
+                                <option value="service">Service</option>
+                                <option value="manufacturing">Manufacturing</option>
+                                <option value="other">อื่นๆ</option>
                             </select>
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">รายได้ธุรกิจ/ปี (บาท)</label>
-                            <input type="number" class="ios-input" id="businessIncome" placeholder="0">
+                            <label class="ios-label">ทุนจดทะเบียน (บาท)</label>
+                            <input type="number" class="ios-input" id="registeredCapital" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">รายได้ (บาท)</label>
+                            <input type="number" class="ios-input" id="businessRevenue" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">กำไรสุทธิปีล่าสุด (บาท)</label>
+                            <input type="number" class="ios-input" id="netProfit" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">ภาษีปีล่าสุด (บาท)</label>
+                            <input type="number" class="ios-input" id="lastYearTax" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">สัดส่วนการถือหุ้น (%)</label>
+                            <input type="number" class="ios-input" id="sharePercentage" placeholder="0" min="0" max="100">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">ส่วนของผู้ถือหุ้น (บาท)</label>
+                            <input type="number" class="ios-input" id="shareholderEquity" placeholder="0">
+                        </div>
+                        
+                        <div class="ios-form-group">
+                            <label class="ios-label">ข้อมูลอื่น ๆ</label>
+                            <textarea class="ios-input" id="businessOtherDetails" rows="3" placeholder="ข้อมูลเพิ่มเติมเกี่ยวกับธุรกิจ"></textarea>
                         </div>
                     </div>
 
@@ -821,7 +1109,9 @@
 
                 <!-- Analysis Result -->
                 <div class="analysis-result" id="analysisResult" style="display: none;">
-                    <h3 class="section-title" style="color: white; text-align: center;">ผลการวิเคราะห์</h3>
+                    <h3 class="section-title" style="text-align: center;">ผลการวิเคราะห์</h3>
+                    
+                    <!-- Risk Summary -->
                     <div class="analysis-grid">
                         <div class="analysis-item">
                             <div class="analysis-label">Risk Score</div>
@@ -840,7 +1130,41 @@
                             <div class="analysis-value" id="suggestedAmount">-</div>
                         </div>
                     </div>
-                    <button class="ios-button ios-button-outline" onclick="generatePDF()" style="width: 100%; margin-top: 16px; background: transparent; color: white; border-color: white;">
+                    
+                    <!-- Dashboard -->
+                    <div class="dashboard">
+                        <!-- Need/Pain Dashboard -->
+                        <div class="dashboard-card">
+                            <div class="dashboard-title">
+                                <span>📊 แดชบอร์ด Need/Pain</span>
+                            </div>
+                            <div class="bar-chart" id="needsDashboard">
+                                <!-- Dynamic content will be inserted here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Risk Level Dashboard -->
+                        <div class="dashboard-card">
+                            <div class="dashboard-title">
+                                <span>⚠️ จุดเสี่ยงหลัก</span>
+                            </div>
+                            <div class="bar-chart" id="riskDashboard">
+                                <!-- Dynamic content will be inserted here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Product Recommendations -->
+                        <div class="dashboard-card" style="grid-column: 1 / -1;">
+                            <div class="dashboard-title">
+                                <span>🎯 ผลิตภัณฑ์แนะนำ</span>
+                            </div>
+                            <div id="productDetails">
+                                <!-- Dynamic content will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="ios-button ios-button-outline" onclick="generatePDF()" style="width: 100%; margin-top: 16px;">
                         📄 สร้างรายงาน PDF
                     </button>
                 </div>
@@ -911,7 +1235,8 @@
     <script>
         // Global variables
         let currentRole = '';
-        let selectedCustomerType = '';
+        let selectedCustomerTypes = [];
+        let childrenAges = [];
         let allCustomers = JSON.parse(localStorage.getItem('customerData') || '[]');
         let navigationHistory = [];
 
@@ -949,7 +1274,7 @@
             // Customer type selection
             document.querySelectorAll('.customer-type-card').forEach(card => {
                 card.addEventListener('click', function() {
-                    selectCustomerType(this.dataset.type);
+                    toggleCustomerType(this.dataset.type);
                 });
             });
             
@@ -960,7 +1285,7 @@
             });
             
             // Input tracking for progress
-            document.querySelectorAll('input, select').forEach(input => {
+            document.querySelectorAll('input, select, textarea').forEach(input => {
                 input.addEventListener('change', updateProgress);
                 input.addEventListener('input', updateProgress);
             });
@@ -1146,14 +1471,60 @@
             return names[role] || role;
         }
 
-        function selectCustomerType(type) {
-            selectedCustomerType = type;
+        function toggleCustomerType(type) {
+            const index = selectedCustomerTypes.indexOf(type);
+            if (index === -1) {
+                selectedCustomerTypes.push(type);
+                document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+            } else {
+                selectedCustomerTypes.splice(index, 1);
+                document.querySelector(`[data-type="${type}"]`).classList.remove('selected');
+            }
             
-            // Update UI
-            document.querySelectorAll('.customer-type-card').forEach(card => {
-                card.classList.remove('selected');
+            // Validate at least 2 selections
+            if (selectedCustomerTypes.length < 2) {
+                document.querySelectorAll('.customer-type-card').forEach(card => {
+                    card.style.borderColor = selectedCustomerTypes.includes(card.dataset.type) ? 'var(--primary)' : 'var(--danger)';
+                });
+            } else {
+                document.querySelectorAll('.customer-type-card').forEach(card => {
+                    card.style.borderColor = selectedCustomerTypes.includes(card.dataset.type) ? 'var(--primary)' : 'var(--border)';
+                });
+            }
+        }
+
+        function addChildAge() {
+            const ageInput = document.getElementById('childAgeInput');
+            const age = parseInt(ageInput.value);
+            
+            if (isNaN(age) || age < 0 || age > 120) {
+                showToast('กรุณากรอกอายุที่ถูกต้อง (0-120)', 'warning');
+                return;
+            }
+            
+            childrenAges.push(age);
+            ageInput.value = '';
+            updateChildrenList();
+        }
+
+        function removeChildAge(index) {
+            childrenAges.splice(index, 1);
+            updateChildrenList();
+        }
+
+        function updateChildrenList() {
+            const list = document.getElementById('childrenAgesList');
+            list.innerHTML = '';
+            
+            childrenAges.forEach((age, index) => {
+                const item = document.createElement('div');
+                item.className = 'child-item';
+                item.innerHTML = `
+                    <div class="child-age">อายุ: ${age} ปี</div>
+                    <button type="button" class="remove-child" onclick="removeChildAge(${index})">×</button>
+                `;
+                list.appendChild(item);
             });
-            document.querySelector(`[data-type="${type}"]`).classList.add('selected');
         }
 
         function generateCustomerId() {
@@ -1168,9 +1539,11 @@
             let filledCount = 0;
             
             sections.forEach(section => {
-                const inputs = section.querySelectorAll('input, select');
+                const inputs = section.querySelectorAll('input, select, textarea');
                 const hasValue = Array.from(inputs).some(input => {
-                    if (input.type === 'checkbox') return input.checked;
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        return input.checked;
+                    }
                     return input.value && input.value.trim() !== '';
                 });
                 
@@ -1191,6 +1564,12 @@
         }
 
         function saveCustomerData() {
+            // Validate customer types
+            if (selectedCustomerTypes.length < 2) {
+                showToast('กรุณาเลือกลักษณะลูกค้าอย่างน้อย 2 รายการ', 'warning');
+                return;
+            }
+            
             const formData = collectFormData();
             const analysis = analyzeCustomerData(formData);
             
@@ -1217,82 +1596,317 @@
         }
 
         function collectFormData() {
+            const kongsi = document.querySelector('input[name="kongsi"]:checked');
+            
             return {
                 customer_id: document.getElementById('customerId').value,
-                employee_name: document.getElementById('employeeName').value,
-                employee_zone: document.getElementById('employeeZone').value,
-                customer_name: document.getElementById('customerName').value,
-                customer_type: selectedCustomerType,
+                full_name: document.getElementById('fullName').value,
+                nickname: document.getElementById('nickname').value,
+                managers: document.getElementById('managers').value,
+                customer_types: selectedCustomerTypes,
+                
+                // Personal Information
+                goals: document.getElementById('goals').value,
+                gender: document.getElementById('gender').value,
+                age: parseInt(document.getElementById('age').value) || 0,
+                marital_status: document.getElementById('maritalStatus').value,
                 occupation: document.getElementById('occupation').value,
                 net_income: parseInt(document.getElementById('netIncome').value) || 0,
-                total_assets: parseInt(document.getElementById('totalAssets').value) || 0,
+                employment_benefits: document.getElementById('employmentBenefits').value,
+                monthly_liabilities: parseInt(document.getElementById('monthlyLiabilities').value) || 0,
+                risk_appetite: document.getElementById('riskAppetite').value,
+                property_type: document.getElementById('propertyType').value,
+                property_value: parseInt(document.getElementById('propertyValue').value) || 0,
+                vehicle_type: document.getElementById('vehicleType').value,
+                vehicle_value: parseInt(document.getElementById('vehicleValue').value) || 0,
+                deposits: parseInt(document.getElementById('deposits').value) || 0,
+                bonds: parseInt(document.getElementById('bonds').value) || 0,
+                funds: parseInt(document.getElementById('funds').value) || 0,
+                credit_card_balance: parseInt(document.getElementById('creditCardBalance').value) || 0,
+                loan_balance: parseInt(document.getElementById('loanBalance').value) || 0,
+                life_insurance: document.getElementById('lifeInsurance').value,
+                aum_ttb: parseInt(document.getElementById('aumTtb').value) || 0,
+                aum_other: parseInt(document.getElementById('aumOther').value) || 0,
+                lifestyle: document.getElementById('lifestyle').value,
+                sensitive_issue: document.getElementById('sensitiveIssue').value,
+                other_details: document.getElementById('otherDetails').value,
+                
+                // Family Information
+                spouse_age: parseInt(document.getElementById('spouseAge').value) || 0,
+                spouse_occupation: document.getElementById('spouseOccupation').value,
                 children_count: parseInt(document.getElementById('childrenCount').value) || 0,
-                marital_status: document.getElementById('maritalStatus').value,
-                has_business: document.getElementById('hasBusiness').value,
-                business_income: parseInt(document.getElementById('businessIncome').value) || 0
+                children_ages: [...childrenAges],
+                children_occupation: document.getElementById('childrenOccupation').value,
+                grandchildren_count: parseInt(document.getElementById('grandchildrenCount').value) || 0,
+                other_relatives: document.getElementById('otherRelatives').value,
+                decision_maker: document.getElementById('decisionMaker').value,
+                kongsi: kongsi ? kongsi.value : '',
+                
+                // Business Information
+                business_name: document.getElementById('businessName').value,
+                business_type: document.getElementById('businessType').value,
+                registered_capital: parseInt(document.getElementById('registeredCapital').value) || 0,
+                business_revenue: parseInt(document.getElementById('businessRevenue').value) || 0,
+                net_profit: parseInt(document.getElementById('netProfit').value) || 0,
+                last_year_tax: parseInt(document.getElementById('lastYearTax').value) || 0,
+                share_percentage: parseInt(document.getElementById('sharePercentage').value) || 0,
+                shareholder_equity: parseInt(document.getElementById('shareholderEquity').value) || 0,
+                business_other_details: document.getElementById('businessOtherDetails').value
             };
         }
 
         function analyzeCustomerData(data) {
-            // Advanced scoring algorithm
-            let riskScore = 50; // Base score
+            // Calculate thresholds
+            const thresholds = calculateThresholds(data);
             
-            // Income scoring (0-25 points)
-            if (data.net_income >= 2000000) riskScore += 25;
-            else if (data.net_income >= 1000000) riskScore += 15;
-            else if (data.net_income >= 500000) riskScore += 5;
-            else riskScore -= 10;
+            // Calculate needs
+            const needs = calculateNeeds(data, thresholds);
             
-            // Assets scoring (0-20 points)
-            if (data.total_assets >= 10000000) riskScore += 20;
-            else if (data.total_assets >= 5000000) riskScore += 10;
-            else if (data.total_assets >= 1000000) riskScore += 5;
+            // Calculate risk level
+            const riskLevel = calculateRiskLevel(needs, thresholds);
             
-            // Business scoring (0-15 points)
-            if (data.has_business === 'yes') {
-                riskScore += 10;
-                if (data.business_income >= 1000000) riskScore += 5;
-            }
+            // Recommend products
+            const products = recommendProducts(needs, data, thresholds);
             
-            // Family scoring (0-10 points)
-            if (data.marital_status === 'married') riskScore += 5;
-            if (data.children_count > 0) riskScore += 5;
+            // Calculate suggested amounts
+            const suggestedAmounts = calculateSuggestedAmount(data, needs, products);
             
-            // Customer type scoring (0-10 points)
-            const typeScores = {
-                'goal_oriented': 10,
-                'celebrity': 8,
-                'analytical': 7,
-                'conservative': 5
-            };
-            riskScore += typeScores[data.customer_type] || 0;
-            
-            // Ensure score is within 0-100 range
-            riskScore = Math.max(0, Math.min(100, riskScore));
-            
-            // Determine customer level and recommendations
-            let customerLevel, productRecommendations, suggestedAmount;
-            
-            if (riskScore >= 75) {
-                customerLevel = 'Critical Risk';
-                productRecommendations = 'ประกันชีวิตเต็มรูปแบบ, กองทุนรวมสูงrisk, สินเชื่อธุรกิจ';
-                suggestedAmount = '2,000,000 - 10,000,000 บาท';
-            } else if (riskScore >= 50) {
-                customerLevel = 'Strategic Risk';
-                productRecommendations = 'ประกันสุขภาพครอบครัว, กองทุนรวมmedium risk, บัตรเครดิตทอง';
-                suggestedAmount = '500,000 - 2,000,000 บาท';
-            } else {
-                customerLevel = 'Wealth & Lifestyle';
-                productRecommendations = 'ประกันอุบัติเหตุ, กองทุนรวมlow risk, บัญชีออมทรัพย์พิเศษ';
-                suggestedAmount = '100,000 - 500,000 บาท';
-            }
+            // Calculate risk score (0-100)
+            const riskScore = calculateRiskScore(needs, thresholds);
             
             return {
-                risk_score: Math.round(riskScore),
-                customer_level: customerLevel,
-                product_recommendations: productRecommendations,
-                suggested_amount: suggestedAmount
+                risk_score: riskScore,
+                customer_level: riskLevel,
+                product_recommendations: products.map(p => p.name).join(', '),
+                suggested_amount: suggestedAmounts,
+                needs: needs,
+                thresholds: thresholds,
+                products: products
             };
+        }
+
+        function calculateThresholds(data) {
+            const thresholds = {};
+            
+            // Income threshold
+            if (data.net_income < 1000000) thresholds.income = 'low';
+            else if (data.net_income <= 5000000) thresholds.income = 'mid';
+            else thresholds.income = 'high';
+            
+            // Asset threshold
+            const totalAssets = (data.property_value || 0) + (data.vehicle_value || 0) + 
+                              (data.deposits || 0) + (data.bonds || 0) + (data.funds || 0) +
+                              (data.aum_ttb || 0) + (data.aum_other || 0);
+            
+            if (totalAssets < 5000000) thresholds.assets = 'low';
+            else if (totalAssets <= 100000000) thresholds.assets = 'mid';
+            else thresholds.assets = 'high';
+            
+            // Liability threshold
+            const totalLiabilities = (data.credit_card_balance || 0) + (data.loan_balance || 0) + 
+                                   (data.monthly_liabilities || 0) * 12;
+            
+            if (totalLiabilities < 500000) thresholds.liabilities = 'low';
+            else if (totalLiabilities <= 5000000) thresholds.liabilities = 'mid';
+            else thresholds.liabilities = 'high';
+            
+            // Age threshold
+            if (data.age < 35) thresholds.age = 'youth';
+            else if (data.age <= 50) thresholds.age = 'mid_career';
+            else if (data.age <= 59) thresholds.age = 'pre_retire';
+            else thresholds.age = 'retire';
+            
+            // DTI threshold
+            const dti = data.net_income > 0 ? totalLiabilities / data.net_income : 0;
+            thresholds.dti = dti < 0.5 ? 'low' : 'high';
+            
+            return thresholds;
+        }
+
+        function calculateNeeds(data, thresholds) {
+            const needs = {
+                health: 0,
+                financial: 0,
+                legacy: 0,
+                business: 0,
+                investment: 0
+            };
+            
+            // Health need (กลัวเจ็บ)
+            if (data.employment_benefits === 'no_benefits' || data.employment_benefits === 'basic' || data.age > 45) {
+                needs.health += 30;
+            }
+            if (data.sensitive_issue && data.sensitive_issue.toLowerCase().includes('สุขภาพ')) {
+                needs.health += 20;
+            }
+            
+            // Financial need (กลัวจน)
+            if (thresholds.dti === 'high' || thresholds.liabilities === 'high' || thresholds.income === 'low') {
+                needs.financial += 40;
+            }
+            if (data.age > 50) {
+                needs.financial += 20;
+            }
+            
+            // Legacy need (กลัวตาย)
+            if (data.marital_status === 'married' && data.children_count > 0) {
+                needs.legacy += 30;
+                const hasYoungChildren = data.children_ages.some(age => age < 22);
+                if (hasYoungChildren) needs.legacy += 20;
+            }
+            if (thresholds.assets === 'high') {
+                needs.legacy += 20;
+            }
+            
+            // Business need
+            if (data.business_name && data.net_profit > 0) {
+                needs.business += 40;
+            }
+            if (data.share_percentage && data.share_percentage < 100) {
+                needs.business += 20;
+            }
+            
+            // Investment need
+            if (data.risk_appetite === 'high' && data.age < 50) {
+                needs.investment += 40;
+            }
+            if (thresholds.income === 'high' && data.age < 45) {
+                needs.investment += 20;
+            }
+            
+            return needs;
+        }
+
+        function calculateRiskLevel(needs, thresholds) {
+            let maxNeed = 0;
+            let primaryNeed = '';
+            
+            for (const [need, value] of Object.entries(needs)) {
+                if (value > maxNeed) {
+                    maxNeed = value;
+                    primaryNeed = need;
+                }
+            }
+            
+            if (primaryNeed === 'health' && maxNeed >= 40) return 'Critical Risk';
+            if (primaryNeed === 'financial' && maxNeed >= 40) return 'Critical Risk';
+            if (primaryNeed === 'legacy' && thresholds.assets === 'high') return 'Strategic Risk';
+            if (primaryNeed === 'business' && maxNeed >= 40) return 'Strategic Risk';
+            
+            return 'Wealth & Lifestyle';
+        }
+
+        function recommendProducts(needs, data, thresholds) {
+            const products = [];
+            
+            // Health products
+            if (needs.health >= 30) {
+                products.push({
+                    name: 'Health Insurance',
+                    reason: 'คุ้มครองค่ารักษาพยาบาล',
+                    priority: 1
+                });
+                products.push({
+                    name: 'Critical Illness',
+                    reason: 'คุ้มครองโรคภัยร้ายแรง',
+                    priority: 2
+                });
+            }
+            
+            // Financial products
+            if (needs.financial >= 40) {
+                products.push({
+                    name: 'Term Life',
+                    reason: 'คุ้มครองชีวิตในราคาประหยัด',
+                    priority: 1
+                });
+                products.push({
+                    name: 'Debt Cover',
+                    reason: 'คุ้มครองหนี้สิน',
+                    priority: 3
+                });
+            }
+            
+            // Legacy products
+            if (needs.legacy >= 40) {
+                products.push({
+                    name: 'Whole Life',
+                    reason: 'คุ้มครองตลอดชีพ + ออมทรัพย์',
+                    priority: 1
+                });
+            }
+            
+            // Business products
+            if (needs.business >= 40) {
+                products.push({
+                    name: 'Key Person Insurance',
+                    reason: 'คุ้มครองบุคคลสำคัญในธุรกิจ',
+                    priority: 1
+                });
+            }
+            
+            // Investment products
+            if (needs.investment >= 40) {
+                products.push({
+                    name: 'Unit-linked',
+                    reason: 'ลงทุนในกองทุนรวม',
+                    priority: 2
+                });
+                products.push({
+                    name: 'The Treasure Extra',
+                    reason: 'สะสมทรัพย์ระยะยาว',
+                    priority: 3
+                });
+            }
+            
+            // Sort by priority and return top 3
+            return products.sort((a, b) => a.priority - b.priority).slice(0, 3);
+        }
+
+        function calculateSuggestedAmount(data, needs, products) {
+            let totalAmount = 0;
+            const amounts = [];
+            
+            // Family Protection
+            if (needs.legacy >= 30 || needs.financial >= 40) {
+                const familyProtection = data.net_income * 10;
+                amounts.push(`คุ้มครองครอบครัว: ${familyProtection.toLocaleString()} บาท`);
+                totalAmount += familyProtection;
+            }
+            
+            // Health Coverage
+            if (needs.health >= 30) {
+                amounts.push(`คุ้มครองสุขภาพ: 5,000,000 บาท`);
+                totalAmount += 5000000;
+            }
+            
+            // Debt Protection
+            if (needs.financial >= 40) {
+                const totalLiabilities = (data.credit_card_balance || 0) + (data.loan_balance || 0);
+                if (totalLiabilities > 0) {
+                    amounts.push(`คุ้มครองหนี้สิน: ${totalLiabilities.toLocaleString()} บาท`);
+                    totalAmount += totalLiabilities;
+                }
+            }
+            
+            return amounts.join(' | ');
+        }
+
+        function calculateRiskScore(needs, thresholds) {
+            let score = 50; // Base score
+            
+            // Adjust based on needs
+            const maxNeed = Math.max(...Object.values(needs));
+            score += (maxNeed / 100) * 30;
+            
+            // Adjust based on DTI
+            if (thresholds.dti === 'high') score += 15;
+            
+            // Adjust based on age
+            if (thresholds.age === 'pre_retire' || thresholds.age === 'retire') score += 10;
+            
+            // Ensure score is within 0-100
+            return Math.max(0, Math.min(100, Math.round(score)));
         }
 
         function displayAnalysisResult(analysis) {
@@ -1301,14 +1915,116 @@
             document.getElementById('productRecommendations').textContent = analysis.product_recommendations;
             document.getElementById('suggestedAmount').textContent = analysis.suggested_amount;
             
+            // Display needs dashboard
+            displayNeedsDashboard(analysis.needs);
+            
+            // Display risk dashboard
+            displayRiskDashboard(analysis);
+            
+            // Display product details
+            displayProductDetails(analysis.products);
+            
             document.getElementById('analysisResult').style.display = 'block';
+        }
+
+        function displayNeedsDashboard(needs) {
+            const dashboard = document.getElementById('needsDashboard');
+            dashboard.innerHTML = '';
+            
+            const needLabels = {
+                health: '🩺 กลัวเจ็บ',
+                financial: '💰 กลัวจน', 
+                legacy: '🏛️ กลัวตาย',
+                business: '🏢 ธุรกิจ',
+                investment: '📈 การลงทุน'
+            };
+            
+            const needColors = {
+                health: '#FF3B30',
+                financial: '#FF9500',
+                legacy: '#007AFF',
+                business: '#34C759',
+                investment: '#AF52DE'
+            };
+            
+            for (const [need, value] of Object.entries(needs)) {
+                const item = document.createElement('div');
+                item.className = 'bar-item';
+                
+                item.innerHTML = `
+                    <div class="bar-label">${needLabels[need] || need}</div>
+                    <div class="bar-container">
+                        <div class="bar-fill" style="width: ${value}%; background: ${needColors[need] || '#007AFF'};"></div>
+                    </div>
+                    <div class="bar-value">${value}%</div>
+                `;
+                
+                dashboard.appendChild(item);
+            }
+        }
+
+        function displayRiskDashboard(analysis) {
+            const dashboard = document.getElementById('riskDashboard');
+            dashboard.innerHTML = '';
+            
+            const riskLevels = {
+                'Critical Risk': 80,
+                'Strategic Risk': 60,
+                'Wealth & Lifestyle': 40
+            };
+            
+            const currentRisk = riskLevels[analysis.customer_level] || 40;
+            
+            const item = document.createElement('div');
+            item.className = 'bar-item';
+            
+            item.innerHTML = `
+                <div class="bar-label">${analysis.customer_level}</div>
+                <div class="bar-container">
+                    <div class="bar-fill" style="width: ${currentRisk}%; background: ${
+                        analysis.customer_level === 'Critical Risk' ? '#FF3B30' : 
+                        analysis.customer_level === 'Strategic Risk' ? '#FF9500' : '#34C759'
+                    };"></div>
+                </div>
+                <div class="bar-value">${currentRisk}%</div>
+            `;
+            
+            dashboard.appendChild(item);
+        }
+
+        function displayProductDetails(products) {
+            const container = document.getElementById('productDetails');
+            container.innerHTML = '';
+            
+            if (products.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">ไม่มีผลิตภัณฑ์แนะนำในขณะนี้</p>';
+                return;
+            }
+            
+            products.forEach((product, index) => {
+                const productDiv = document.createElement('div');
+                productDiv.style.cssText = `
+                    background: var(--background);
+                    padding: 12px;
+                    border-radius: var(--radius-md);
+                    margin-bottom: 12px;
+                    border-left: 4px solid var(--primary);
+                `;
+                
+                productDiv.innerHTML = `
+                    <div style="font-weight: 600; margin-bottom: 4px;">${index + 1}. ${product.name}</div>
+                    <div style="font-size: 14px; color: var(--text-secondary);">${product.reason}</div>
+                `;
+                
+                container.appendChild(productDiv);
+            });
         }
 
         function generatePDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Set Thai font (using a standard font that supports Thai)
+            // Set font
             doc.setFont('helvetica');
             
             // Add logo and header
@@ -1331,12 +2047,11 @@
             
             const customerInfo = [
                 [`Customer ID: ${formData.customer_id}`],
-                [`ชื่อลูกค้า: ${formData.customer_name}`],
-                [`พนักงาน: ${formData.employee_name}`],
-                [`Zone: ${formData.employee_zone}`],
+                [`ชื่อ: ${formData.full_name}`],
+                [`ชื่อเล่น: ${formData.nickname}`],
+                [`อายุ: ${formData.age} ปี`],
                 [`อาชีพ: ${formData.occupation}`],
-                [`รายได้/ปี: ${formData.net_income.toLocaleString()} บาท`],
-                [`ทรัพย์สินรวม: ${formData.total_assets.toLocaleString()} บาท`]
+                [`รายได้/ปี: ${formData.net_income.toLocaleString()} บาท`]
             ];
             
             let yPos = 60;
@@ -1401,9 +2116,9 @@
                 <div class="ios-card" style="margin-top: 16px; border-left: 4px solid var(--success);">
                     <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
                         <div>
-                            <div style="font-weight: 600; margin-bottom: 4px;">${customer.customer_name}</div>
+                            <div style="font-weight: 600; margin-bottom: 4px;">${customer.full_name}</div>
                             <div style="font-size: 14px; color: var(--text-muted);">
-                                ID: ${customer.customer_id} | ${customer.employee_name}
+                                ID: ${customer.customer_id} | อายุ: ${customer.age} ปี
                             </div>
                         </div>
                         <div style="background: var(--primary); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">
@@ -1448,23 +2163,71 @@
             
             // Populate form with customer data
             document.getElementById('customerId').value = customer.customer_id;
-            document.getElementById('employeeName').value = customer.employee_name;
-            document.getElementById('employeeZone').value = customer.employee_zone;
-            document.getElementById('customerName').value = customer.customer_name;
-            document.getElementById('occupation').value = customer.occupation;
-            document.getElementById('netIncome').value = customer.net_income;
-            document.getElementById('totalAssets').value = customer.total_assets;
-            document.getElementById('childrenCount').value = customer.children_count;
-            document.getElementById('maritalStatus').value = customer.marital_status;
-            document.getElementById('hasBusiness').value = customer.has_business;
-            document.getElementById('businessIncome').value = customer.business_income;
+            document.getElementById('fullName').value = customer.full_name;
+            document.getElementById('nickname').value = customer.nickname;
+            document.getElementById('managers').value = customer.managers;
             
-            // Select customer type
-            selectedCustomerType = customer.customer_type;
+            // Reset and set customer types
+            selectedCustomerTypes = customer.customer_types || [];
             document.querySelectorAll('.customer-type-card').forEach(card => {
                 card.classList.remove('selected');
+                if (selectedCustomerTypes.includes(card.dataset.type)) {
+                    card.classList.add('selected');
+                }
             });
-            document.querySelector(`[data-type="${customer.customer_type}"]`).classList.add('selected');
+            
+            // Personal Information
+            document.getElementById('goals').value = customer.goals;
+            document.getElementById('gender').value = customer.gender;
+            document.getElementById('age').value = customer.age;
+            document.getElementById('maritalStatus').value = customer.marital_status;
+            document.getElementById('occupation').value = customer.occupation;
+            document.getElementById('netIncome').value = customer.net_income;
+            document.getElementById('employmentBenefits').value = customer.employment_benefits;
+            document.getElementById('monthlyLiabilities').value = customer.monthly_liabilities;
+            document.getElementById('riskAppetite').value = customer.risk_appetite;
+            document.getElementById('propertyType').value = customer.property_type;
+            document.getElementById('propertyValue').value = customer.property_value;
+            document.getElementById('vehicleType').value = customer.vehicle_type;
+            document.getElementById('vehicleValue').value = customer.vehicle_value;
+            document.getElementById('deposits').value = customer.deposits;
+            document.getElementById('bonds').value = customer.bonds;
+            document.getElementById('funds').value = customer.funds;
+            document.getElementById('creditCardBalance').value = customer.credit_card_balance;
+            document.getElementById('loanBalance').value = customer.loan_balance;
+            document.getElementById('lifeInsurance').value = customer.life_insurance;
+            document.getElementById('aumTtb').value = customer.aum_ttb;
+            document.getElementById('aumOther').value = customer.aum_other;
+            document.getElementById('lifestyle').value = customer.lifestyle;
+            document.getElementById('sensitiveIssue').value = customer.sensitive_issue;
+            document.getElementById('otherDetails').value = customer.other_details;
+            
+            // Family Information
+            document.getElementById('spouseAge').value = customer.spouse_age;
+            document.getElementById('spouseOccupation').value = customer.spouse_occupation;
+            document.getElementById('childrenCount').value = customer.children_count;
+            childrenAges = customer.children_ages || [];
+            updateChildrenList();
+            document.getElementById('childrenOccupation').value = customer.children_occupation;
+            document.getElementById('grandchildrenCount').value = customer.grandchildren_count;
+            document.getElementById('otherRelatives').value = customer.other_relatives;
+            document.getElementById('decisionMaker').value = customer.decision_maker;
+            
+            // Set kongsi radio
+            if (customer.kongsi) {
+                document.querySelector(`input[name="kongsi"][value="${customer.kongsi}"]`).checked = true;
+            }
+            
+            // Business Information
+            document.getElementById('businessName').value = customer.business_name;
+            document.getElementById('businessType').value = customer.business_type;
+            document.getElementById('registeredCapital').value = customer.registered_capital;
+            document.getElementById('businessRevenue').value = customer.business_revenue;
+            document.getElementById('netProfit').value = customer.net_profit;
+            document.getElementById('lastYearTax').value = customer.last_year_tax;
+            document.getElementById('sharePercentage').value = customer.share_percentage;
+            document.getElementById('shareholderEquity').value = customer.shareholder_equity;
+            document.getElementById('businessOtherDetails').value = customer.business_other_details;
             
             // Hide search results
             document.getElementById('searchResultContainer').style.display = 'none';
@@ -1481,38 +2244,58 @@
             
             // Create modal view
             const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0,0,0,0.5);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                z-index: 1000;
-                padding: 20px;
-            `;
+            modal.className = 'modal-overlay';
             
             modal.innerHTML = `
-                <div class="ios-card" style="max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto;">
+                <div class="modal-content">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <h3 style="margin: 0;">รายละเอียดลูกค้า</h3>
+                        <h3 class="modal-title">รายละเอียดลูกค้า</h3>
                         <button onclick="this.closest('.modal-overlay').remove()" style="background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
                     </div>
-                    <div style="display: grid; gap: 12px;">
-                        ${Object.entries(customer).map(([key, value]) => `
-                            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 8px;">
-                                <div style="font-weight: 500;">${key}:</div>
-                                <div>${value}</div>
+                    <div style="max-height: 60vh; overflow-y: auto;">
+                        <div class="ios-card" style="margin-bottom: 12px;">
+                            <h4 style="margin-bottom: 8px;">ข้อมูลพื้นฐาน</h4>
+                            <div style="display: grid; gap: 8px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>ชื่อ:</span>
+                                    <span>${customer.full_name}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>อายุ:</span>
+                                    <span>${customer.age} ปี</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>อาชีพ:</span>
+                                    <span>${customer.occupation}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>รายได้/ปี:</span>
+                                    <span>${customer.net_income.toLocaleString()} บาท</span>
+                                </div>
                             </div>
-                        `).join('')}
+                        </div>
+                        
+                        <div class="ios-card">
+                            <h4 style="margin-bottom: 8px;">ผลการวิเคราะห์</h4>
+                            <div style="display: grid; gap: 8px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>Risk Score:</span>
+                                    <span>${customer.risk_score}/100</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>ระดับ:</span>
+                                    <span>${customer.customer_level}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span>ผลิตภัณฑ์แนะนำ:</span>
+                                    <span>${customer.product_recommendations}</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
             
-            modal.querySelector('.ios-card').classList.add('ios-modal');
             document.body.appendChild(modal);
             
             // Close modal when clicking outside
@@ -1535,8 +2318,8 @@
             
             const filteredCustomers = allCustomers.filter(customer => 
                 customer.customer_id.toLowerCase().includes(searchTerm) ||
-                customer.customer_name.toLowerCase().includes(searchTerm) ||
-                customer.employee_name.toLowerCase().includes(searchTerm)
+                customer.full_name.toLowerCase().includes(searchTerm) ||
+                (customer.nickname && customer.nickname.toLowerCase().includes(searchTerm))
             );
             
             displayCoachResults(filteredCustomers);
@@ -1560,9 +2343,9 @@
                 <div class="ios-card">
                     <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 12px;">
                         <div>
-                            <div style="font-weight: 600; margin-bottom: 4px;">${customer.customer_name}</div>
+                            <div style="font-weight: 600; margin-bottom: 4px;">${customer.full_name}</div>
                             <div style="font-size: 14px; color: var(--text-muted);">
-                                ID: ${customer.customer_id} | ${customer.employee_name}
+                                ID: ${customer.customer_id} | อายุ: ${customer.age} ปี
                             </div>
                         </div>
                         <div style="background: var(--primary); color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">
@@ -1579,6 +2362,10 @@
                             <div style="font-weight: 600;">${customer.net_income.toLocaleString()} บ.</div>
                         </div>
                     </div>
+                    <div style="background: var(--background); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+                        <div style="font-size: 12px; color: var(--text-muted);">ผลิตภัณฑ์แนะนำ</div>
+                        <div style="font-size: 14px;">${customer.product_recommendations}</div>
+                    </div>
                     <div class="ios-segmented-control">
                         <div class="ios-segment" onclick="viewCustomerDetail('${customer.id}')">ดูรายละเอียด</div>
                         <div class="ios-segment" onclick="addCoachComment('${customer.id}')">เพิ่มความเห็น</div>
@@ -1593,8 +2380,62 @@
         }
 
         function addCoachComment(customerId) {
-            // Implement coach comment functionality
-            showToast('เปิดฟังก์ชันเพิ่มความเห็น');
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3 class="modal-title">เพิ่มความเห็น</h3>
+                    <div class="ios-form-group">
+                        <textarea class="ios-input" id="coachComment" placeholder="กรอกความเห็น..." rows="4"></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="ios-button ios-button-secondary" onclick="this.closest('.modal-overlay').remove()">ยกเลิก</button>
+                        <button class="ios-button" onclick="saveCoachComment('${customerId}')">บันทึก</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Focus on textarea
+            setTimeout(() => {
+                document.getElementById('coachComment').focus();
+            }, 100);
+        }
+
+        function saveCoachComment(customerId) {
+            const comment = document.getElementById('coachComment').value.trim();
+            
+            if (!comment) {
+                showToast('กรุณากรอกความเห็น', 'warning');
+                return;
+            }
+            
+            const customer = allCustomers.find(c => c.id === customerId);
+            
+            if (customer) {
+                if (!customer.coach_comments) {
+                    customer.coach_comments = [];
+                }
+                
+                customer.coach_comments.push({
+                    comment: comment,
+                    timestamp: new Date().toISOString(),
+                    coach: 'Coach' // In a real app, this would be the actual coach name
+                });
+                
+                localStorage.setItem('customerData', JSON.stringify(allCustomers));
+                showToast('บันทึกความเห็นสำเร็จ');
+                document.querySelector('.modal-overlay').remove();
+                
+                // Refresh the coach results if we're in coach view
+                if (currentRole === 'coach') {
+                    searchCustomers();
+                }
+            } else {
+                showToast('ไม่พบข้อมูลลูกค้า', 'error');
+            }
         }
 
         function generateReport() {
@@ -1716,17 +2557,17 @@
                 return;
             }
             
-            const headers = ['Customer ID', 'ชื่อลูกค้า', 'พนักงาน', 'Zone', 'Risk Score', 'ระดับ', 'รายได้/ปี'];
+            const headers = ['Customer ID', 'ชื่อ', 'อายุ', 'อาชีพ', 'รายได้/ปี', 'Risk Score', 'ระดับ'];
             const csvContent = [
                 headers.join(','),
                 ...allCustomers.map(c => [
                     c.customer_id,
-                    c.customer_name,
-                    c.employee_name,
-                    c.employee_zone,
+                    c.full_name,
+                    c.age,
+                    c.occupation,
+                    c.net_income,
                     c.risk_score,
-                    c.customer_level,
-                    c.net_income
+                    c.customer_level
                 ].join(','))
             ].join('\n');
             
