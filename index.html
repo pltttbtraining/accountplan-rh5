@@ -41,7 +41,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Sarabun', sans-serif;
+            font-family: 'Sarabun', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background: var(--background);
             color: var(--text-primary);
             line-height: 1.6;
@@ -640,6 +640,69 @@
             cursor: pointer;
         }
 
+        /* Dynamic Lists */
+        .dynamic-list {
+            margin-top: 12px;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item-content {
+            flex: 1;
+        }
+
+        .remove-item {
+            background: var(--danger);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .add-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        /* Optional Field */
+        .optional-field {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .optional-checkbox {
+            width: 20px;
+            height: 20px;
+        }
+
+        .optional-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -806,12 +869,12 @@
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">ผู้ดูแล (สูงสุด 3 คน)</label>
-                            <textarea class="ios-input" id="managers" rows="3" placeholder="ระบุชื่อผู้ดูแล"></textarea>
+                            <label class="ios-label">ผู้ดูแล</label>
+                            <input type="text" class="ios-input" id="manager" placeholder="ชื่อผู้ดูแล">
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">เลือกลักษณะลูกค้า (เลือกอย่างน้อย 2)</label>
+                            <label class="ios-label">เลือกลักษณะลูกค้า (เลือกได้ไม่เกิน 2)</label>
                             <div class="customer-type-grid">
                                 <div class="customer-type-card" data-type="goal_oriented">
                                     <h4>🎯 เป้าประสงค์</h4>
@@ -838,11 +901,6 @@
                         <div class="section-header">
                             <div class="section-icon">👤</div>
                             <h3 class="section-title">ข้อมูลส่วนตัว</h3>
-                        </div>
-                        
-                        <div class="ios-form-group">
-                            <label class="ios-label">เป้าหมาย (ระยะสั้น-กลาง-ยาว)</label>
-                            <textarea class="ios-input" id="goals" rows="3" placeholder="ระบุเป้าหมายในแต่ละช่วงเวลา"></textarea>
                         </div>
                         
                         <div class="ios-form-group">
@@ -873,7 +931,20 @@
                         
                         <div class="ios-form-group">
                             <label class="ios-label">อาชีพ</label>
-                            <input type="text" class="ios-input" id="occupation" required>
+                            <select class="ios-select" id="occupation" required>
+                                <option value="">เลือกอาชีพ</option>
+                                <option value="business_owner">ธุรกิจส่วนตัว</option>
+                                <option value="employee">พนักงานบริษัท</option>
+                                <option value="government">ข้าราชการ</option>
+                                <option value="freelance">อาชีพอิสระ</option>
+                                <option value="merchant">ค้าขาย</option>
+                                <option value="other">อื่นๆ (ระบุ)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="ios-form-group" id="otherOccupationContainer" style="display: none;">
+                            <label class="ios-label">ระบุอาชีพอื่นๆ</label>
+                            <input type="text" class="ios-input" id="otherOccupation" placeholder="ระบุอาชีพ">
                         </div>
                         
                         <div class="ios-form-group">
@@ -883,7 +954,7 @@
                         
                         <div class="ios-form-group">
                             <label class="ios-label">สวัสดิการจากงาน</label>
-                            <select class="ios-select" id="employmentBenefits">
+                            <select class="ios-select" id="employmentBenefits" required>
                                 <option value="">เลือกสวัสดิการ</option>
                                 <option value="no_benefits">ไม่มีสวัสดิการ</option>
                                 <option value="basic">Basic</option>
@@ -894,12 +965,12 @@
                         
                         <div class="ios-form-group">
                             <label class="ios-label">หนี้สินรายเดือน (บาท)</label>
-                            <input type="number" class="ios-input" id="monthlyLiabilities" placeholder="0">
+                            <input type="number" class="ios-input" id="monthlyLiabilities" placeholder="0" required>
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">ระดับการรับความเสี่ยง</label>
-                            <select class="ios-select" id="riskAppetite">
+                            <label class="ios-label">ระดับความเสี่ยงการลงทุนที่รับได้</label>
+                            <select class="ios-select" id="riskAppetite" required>
                                 <option value="">เลือกระดับ</option>
                                 <option value="low">ต่ำ</option>
                                 <option value="medium">กลาง</option>
@@ -908,72 +979,115 @@
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">อสังหาริมทรัพย์ (ประเภท + มูลค่ารวม)</label>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                                <input type="text" class="ios-input" id="propertyType" placeholder="ประเภท">
-                                <input type="number" class="ios-input" id="propertyValue" placeholder="มูลค่ารวม">
+                            <label class="ios-label">อสังหาริมทรัพย์</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                                <select class="ios-select" id="propertyTypeSelect">
+                                    <option value="">เลือกประเภท</option>
+                                    <option value="บ้าน">บ้าน</option>
+                                    <option value="คอนโด">คอนโด</option>
+                                    <option value="ที่ดิน">ที่ดิน</option>
+                                    <option value="อาคารพาณิชย์">อาคารพาณิชย์</option>
+                                    <option value="อื่นๆ">อื่นๆ</option>
+                                </select>
+                                <input type="number" class="ios-input" id="propertyValueInput" placeholder="มูลค่ารวม">
                             </div>
+                            <button type="button" class="add-button" onclick="addProperty()">+ เพิ่มอสังหาริมทรัพย์</button>
+                            <div class="dynamic-list" id="propertyList"></div>
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">ยานพาหนะ (ประเภท + มูลค่ารวม)</label>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                                <input type="text" class="ios-input" id="vehicleType" placeholder="ประเภท">
-                                <input type="number" class="ios-input" id="vehicleValue" placeholder="มูลค่ารวม">
+                            <label class="ios-label">ยานพาหนะ</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                                <select class="ios-select" id="vehicleTypeSelect">
+                                    <option value="">เลือกประเภท</option>
+                                    <option value="รถยนต์">รถยนต์</option>
+                                    <option value="จักรยานยนต์">จักรยานยนต์</option>
+                                    <option value="เรือ">เรือ</option>
+                                    <option value="เครื่องบิน">เครื่องบิน</option>
+                                    <option value="อื่นๆ">อื่นๆ</option>
+                                </select>
+                                <input type="number" class="ios-input" id="vehicleValueInput" placeholder="มูลค่ารวม">
                             </div>
+                            <button type="button" class="add-button" onclick="addVehicle()">+ เพิ่มยานพาหนะ</button>
+                            <div class="dynamic-list" id="vehicleList"></div>
                         </div>
                         
                         <div class="ios-form-group">
                             <label class="ios-label">เงินฝาก (บาท)</label>
-                            <input type="number" class="ios-input" id="deposits" placeholder="0">
+                            <input type="number" class="ios-input" id="deposits" placeholder="0" required>
                         </div>
                         
                         <div class="ios-form-group">
                             <label class="ios-label">หุ้นกู้ (บาท)</label>
-                            <input type="number" class="ios-input" id="bonds" placeholder="0">
+                            <input type="number" class="ios-input" id="bonds" placeholder="0" required>
                         </div>
                         
                         <div class="ios-form-group">
                             <label class="ios-label">กองทุน (บาท)</label>
-                            <input type="number" class="ios-input" id="funds" placeholder="0">
+                            <input type="number" class="ios-input" id="funds" placeholder="0" required>
                         </div>
                         
                         <div class="ios-form-group">
                             <label class="ios-label">บัตรเครดิต (ยอดคงเหลือรวม)</label>
-                            <input type="number" class="ios-input" id="creditCardBalance" placeholder="0">
+                            <input type="number" class="ios-input" id="creditCardBalance" placeholder="0" required>
                         </div>
                         
                         <div class="ios-form-group">
                             <label class="ios-label">สินเชื่อ (ยอดคงเหลือรวม)</label>
-                            <input type="number" class="ios-input" id="loanBalance" placeholder="0">
+                            <input type="number" class="ios-input" id="loanBalance" placeholder="0" required>
                         </div>
                         
                         <div class="ios-form-group">
-                            <label class="ios-label">ประกันชีวิต (ส่วนตัว) - ชื่อแบบ / ทุน / เบี้ย</label>
-                            <textarea class="ios-input" id="lifeInsurance" rows="3" placeholder="ระบุชื่อแบบประกัน, ทุนประกัน, เบี้ยประกัน"></textarea>
+                            <label class="ios-label">ประกันชีวิต</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+                                <select class="ios-select" id="insuranceTypeSelect">
+                                    <option value="">เลือกประเภท</option>
+                                    <option value="สะสมทรัพย์">สะสมทรัพย์</option>
+                                    <option value="ตลอดชีพ">ตลอดชีพ</option>
+                                    <option value="อุบัติเหตุ">อุบัติเหตุ</option>
+                                    <option value="สุขภาพ">สุขภาพ</option>
+                                    <option value="ควบการลงทุน">ควบการลงทุน</option>
+                                    <option value="อื่นๆ">อื่นๆ</option>
+                                </select>
+                                <input type="number" class="ios-input" id="insuranceValueInput" placeholder="ทุนประกัน">
+                            </div>
+                            <button type="button" class="add-button" onclick="addInsurance()">+ เพิ่มประกันชีวิต</button>
+                            <div class="dynamic-list" id="insuranceList"></div>
                         </div>
                         
                         <div class="ios-form-group">
                             <label class="ios-label">AUM ttb (บาท)</label>
-                            <input type="number" class="ios-input" id="aumTtb" placeholder="0">
+                            <input type="number" class="ios-input" id="aumTtb" placeholder="0" required>
                         </div>
                         
                         <div class="ios-form-group">
                             <label class="ios-label">AUM ที่อื่น (บาท)</label>
-                            <input type="number" class="ios-input" id="aumOther" placeholder="0">
+                            <input type="number" class="ios-input" id="aumOther" placeholder="0" required>
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="lifestyleOptional">
+                                <label class="optional-label">ไม่มีข้อมูล Lifestyle</label>
+                            </div>
                             <label class="ios-label">Lifestyle</label>
                             <textarea class="ios-input" id="lifestyle" rows="3" placeholder="พฤติกรรมการใช้ชีวิต"></textarea>
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="sensitiveIssueOptional">
+                                <label class="optional-label">ไม่มีข้อมูล Sensitive Issue</label>
+                            </div>
                             <label class="ios-label">Sensitive Issue</label>
                             <textarea class="ios-input" id="sensitiveIssue" rows="3" placeholder="ประเด็นอ่อนไหว / ความกังวล"></textarea>
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="otherDetailsOptional">
+                                <label class="optional-label">ไม่มีข้อมูลอื่นๆ</label>
+                            </div>
                             <label class="ios-label">รายละเอียดอื่น ๆ</label>
                             <textarea class="ios-input" id="otherDetails" rows="3" placeholder="รายละเอียดเพิ่มเติม"></textarea>
                         </div>
@@ -987,18 +1101,41 @@
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="spouseAgeOptional">
+                                <label class="optional-label">ไม่มีข้อมูลคู่สมรส</label>
+                            </div>
                             <label class="ios-label">คู่สมรส อายุ</label>
                             <input type="number" class="ios-input" id="spouseAge" placeholder="อายุ">
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="spouseOccupationOptional">
+                                <label class="optional-label">ไม่มีข้อมูลอาชีพคู่สมรส</label>
+                            </div>
                             <label class="ios-label">อาชีพคู่สมรส</label>
-                            <input type="text" class="ios-input" id="spouseOccupation" placeholder="อาชีพ">
+                            <select class="ios-select" id="spouseOccupation">
+                                <option value="">เลือกอาชีพ</option>
+                                <option value="business_owner">ธุรกิจส่วนตัว</option>
+                                <option value="employee">พนักงานบริษัท</option>
+                                <option value="government">ข้าราชการ</option>
+                                <option value="freelance">อาชีพอิสระ</option>
+                                <option value="merchant">ค้าขาย</option>
+                                <option value="housewife">แม่บ้าน</option>
+                                <option value="retired">เกษียณ</option>
+                                <option value="other">อื่นๆ (ระบุ)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="ios-form-group" id="otherSpouseOccupationContainer" style="display: none;">
+                            <label class="ios-label">ระบุอาชีพอื่นๆ ของคู่สมรส</label>
+                            <input type="text" class="ios-input" id="otherSpouseOccupation" placeholder="ระบุอาชีพ">
                         </div>
                         
                         <div class="ios-form-group">
                             <label class="ios-label">จำนวนบุตร</label>
-                            <input type="number" class="ios-input" id="childrenCount" placeholder="0" min="0">
+                            <input type="number" class="ios-input" id="childrenCount" placeholder="0" min="0" required>
                         </div>
                         
                         <div class="ios-form-group">
@@ -1011,21 +1148,51 @@
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="childrenOccupationOptional">
+                                <label class="optional-label">ไม่มีข้อมูลอาชีพบุตร</label>
+                            </div>
                             <label class="ios-label">อาชีพบุตร</label>
-                            <input type="text" class="ios-input" id="childrenOccupation" placeholder="อาชีพ">
+                            <select class="ios-select" id="childrenOccupation">
+                                <option value="">เลือกอาชีพ</option>
+                                <option value="student">นักเรียน/นักศึกษา</option>
+                                <option value="business_owner">ธุรกิจส่วนตัว</option>
+                                <option value="employee">พนักงานบริษัท</option>
+                                <option value="government">ข้าราชการ</option>
+                                <option value="freelance">อาชีพอิสระ</option>
+                                <option value="merchant">ค้าขาย</option>
+                                <option value="other">อื่นๆ (ระบุ)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="ios-form-group" id="otherChildrenOccupationContainer" style="display: none;">
+                            <label class="ios-label">ระบุอาชีพอื่นๆ ของบุตร</label>
+                            <input type="text" class="ios-input" id="otherChildrenOccupation" placeholder="ระบุอาชีพ">
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="grandchildrenCountOptional">
+                                <label class="optional-label">ไม่มีข้อมูลหลาน</label>
+                            </div>
                             <label class="ios-label">จำนวนหลาน</label>
                             <input type="number" class="ios-input" id="grandchildrenCount" placeholder="0" min="0">
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="otherRelativesOptional">
+                                <label class="optional-label">ไม่มีข้อมูลบุคคลอื่น</label>
+                            </div>
                             <label class="ios-label">บุคคลอื่นที่เกี่ยวข้อง</label>
                             <textarea class="ios-input" id="otherRelatives" rows="2" placeholder="ระบุบุคคลอื่นที่เกี่ยวข้อง"></textarea>
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="decisionMakerOptional">
+                                <label class="optional-label">ไม่มีข้อมูลผู้มีอำนาจตัดสินใจ</label>
+                            </div>
                             <label class="ios-label">ผู้มีอำนาจตัดสินใจ</label>
                             <input type="text" class="ios-input" id="decisionMaker" placeholder="ชื่อผู้มีอำนาจตัดสินใจ">
                         </div>
@@ -1051,6 +1218,10 @@
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="businessNameOptional">
+                                <label class="optional-label">ไม่มีธุรกิจ</label>
+                            </div>
                             <label class="ios-label">ชื่อกิจการ</label>
                             <input type="text" class="ios-input" id="businessName" placeholder="ชื่อกิจการ">
                         </div>
@@ -1097,6 +1268,10 @@
                         </div>
                         
                         <div class="ios-form-group">
+                            <div class="optional-field">
+                                <input type="checkbox" class="optional-checkbox" id="businessOtherDetailsOptional">
+                                <label class="optional-label">ไม่มีข้อมูลอื่นๆ</label>
+                            </div>
                             <label class="ios-label">ข้อมูลอื่น ๆ</label>
                             <textarea class="ios-input" id="businessOtherDetails" rows="3" placeholder="ข้อมูลเพิ่มเติมเกี่ยวกับธุรกิจ"></textarea>
                         </div>
@@ -1237,6 +1412,9 @@
         let currentRole = '';
         let selectedCustomerTypes = [];
         let childrenAges = [];
+        let properties = [];
+        let vehicles = [];
+        let insurances = [];
         let allCustomers = JSON.parse(localStorage.getItem('customerData') || '[]');
         let navigationHistory = [];
 
@@ -1284,10 +1462,66 @@
                 saveCustomerData();
             });
             
+            // Occupation dropdown change
+            document.getElementById('occupation').addEventListener('change', function() {
+                document.getElementById('otherOccupationContainer').style.display = 
+                    this.value === 'other' ? 'block' : 'none';
+            });
+            
+            // Spouse occupation dropdown change
+            document.getElementById('spouseOccupation').addEventListener('change', function() {
+                document.getElementById('otherSpouseOccupationContainer').style.display = 
+                    this.value === 'other' ? 'block' : 'none';
+            });
+            
+            // Children occupation dropdown change
+            document.getElementById('childrenOccupation').addEventListener('change', function() {
+                document.getElementById('otherChildrenOccupationContainer').style.display = 
+                    this.value === 'other' ? 'block' : 'none';
+            });
+            
+            // Optional field checkboxes
+            setupOptionalFields();
+            
             // Input tracking for progress
             document.querySelectorAll('input, select, textarea').forEach(input => {
                 input.addEventListener('change', updateProgress);
                 input.addEventListener('input', updateProgress);
+            });
+        }
+
+        function setupOptionalFields() {
+            const optionalFields = [
+                { checkbox: 'lifestyleOptional', field: 'lifestyle' },
+                { checkbox: 'sensitiveIssueOptional', field: 'sensitiveIssue' },
+                { checkbox: 'otherDetailsOptional', field: 'otherDetails' },
+                { checkbox: 'spouseAgeOptional', field: 'spouseAge' },
+                { checkbox: 'spouseOccupationOptional', field: 'spouseOccupation' },
+                { checkbox: 'childrenOccupationOptional', field: 'childrenOccupation' },
+                { checkbox: 'grandchildrenCountOptional', field: 'grandchildrenCount' },
+                { checkbox: 'otherRelativesOptional', field: 'otherRelatives' },
+                { checkbox: 'decisionMakerOptional', field: 'decisionMaker' },
+                { checkbox: 'businessNameOptional', field: 'businessName' },
+                { checkbox: 'businessOtherDetailsOptional', field: 'businessOtherDetails' }
+            ];
+
+            optionalFields.forEach(item => {
+                const checkbox = document.getElementById(item.checkbox);
+                const field = document.getElementById(item.field);
+                
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        field.disabled = true;
+                        field.value = '';
+                        field.style.background = 'var(--background)';
+                        field.style.color = 'var(--text-muted)';
+                    } else {
+                        field.disabled = false;
+                        field.style.background = 'var(--surface)';
+                        field.style.color = 'var(--text-primary)';
+                    }
+                    updateProgress();
+                });
             });
         }
 
@@ -1474,23 +1708,142 @@
         function toggleCustomerType(type) {
             const index = selectedCustomerTypes.indexOf(type);
             if (index === -1) {
-                selectedCustomerTypes.push(type);
-                document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+                if (selectedCustomerTypes.length < 2) {
+                    selectedCustomerTypes.push(type);
+                    document.querySelector(`[data-type="${type}"]`).classList.add('selected');
+                } else {
+                    showToast('เลือกลักษณะลูกค้าได้ไม่เกิน 2 รายการ', 'warning');
+                }
             } else {
                 selectedCustomerTypes.splice(index, 1);
                 document.querySelector(`[data-type="${type}"]`).classList.remove('selected');
             }
+        }
+
+        function addProperty() {
+            const typeSelect = document.getElementById('propertyTypeSelect');
+            const valueInput = document.getElementById('propertyValueInput');
             
-            // Validate at least 2 selections
-            if (selectedCustomerTypes.length < 2) {
-                document.querySelectorAll('.customer-type-card').forEach(card => {
-                    card.style.borderColor = selectedCustomerTypes.includes(card.dataset.type) ? 'var(--primary)' : 'var(--danger)';
-                });
-            } else {
-                document.querySelectorAll('.customer-type-card').forEach(card => {
-                    card.style.borderColor = selectedCustomerTypes.includes(card.dataset.type) ? 'var(--primary)' : 'var(--border)';
-                });
+            const type = typeSelect.value;
+            const value = parseInt(valueInput.value) || 0;
+            
+            if (!type) {
+                showToast('กรุณาเลือกประเภทอสังหาริมทรัพย์', 'warning');
+                return;
             }
+            
+            properties.push({ type, value });
+            updatePropertyList();
+            
+            // Reset inputs
+            typeSelect.value = '';
+            valueInput.value = '';
+            
+            showToast('เพิ่มอสังหาริมทรัพย์เรียบร้อย');
+        }
+
+        function removeProperty(index) {
+            properties.splice(index, 1);
+            updatePropertyList();
+        }
+
+        function updatePropertyList() {
+            const list = document.getElementById('propertyList');
+            list.innerHTML = '';
+            
+            properties.forEach((property, index) => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `
+                    <div class="list-item-content">${property.type}: ${property.value.toLocaleString()} บาท</div>
+                    <button type="button" class="remove-item" onclick="removeProperty(${index})">×</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function addVehicle() {
+            const typeSelect = document.getElementById('vehicleTypeSelect');
+            const valueInput = document.getElementById('vehicleValueInput');
+            
+            const type = typeSelect.value;
+            const value = parseInt(valueInput.value) || 0;
+            
+            if (!type) {
+                showToast('กรุณาเลือกประเภทยานพาหนะ', 'warning');
+                return;
+            }
+            
+            vehicles.push({ type, value });
+            updateVehicleList();
+            
+            // Reset inputs
+            typeSelect.value = '';
+            valueInput.value = '';
+            
+            showToast('เพิ่มยานพาหนะเรียบร้อย');
+        }
+
+        function removeVehicle(index) {
+            vehicles.splice(index, 1);
+            updateVehicleList();
+        }
+
+        function updateVehicleList() {
+            const list = document.getElementById('vehicleList');
+            list.innerHTML = '';
+            
+            vehicles.forEach((vehicle, index) => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `
+                    <div class="list-item-content">${vehicle.type}: ${vehicle.value.toLocaleString()} บาท</div>
+                    <button type="button" class="remove-item" onclick="removeVehicle(${index})">×</button>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function addInsurance() {
+            const typeSelect = document.getElementById('insuranceTypeSelect');
+            const valueInput = document.getElementById('insuranceValueInput');
+            
+            const type = typeSelect.value;
+            const value = parseInt(valueInput.value) || 0;
+            
+            if (!type) {
+                showToast('กรุณาเลือกประเภทประกันชีวิต', 'warning');
+                return;
+            }
+            
+            insurances.push({ type, value });
+            updateInsuranceList();
+            
+            // Reset inputs
+            typeSelect.value = '';
+            valueInput.value = '';
+            
+            showToast('เพิ่มประกันชีวิตเรียบร้อย');
+        }
+
+        function removeInsurance(index) {
+            insurances.splice(index, 1);
+            updateInsuranceList();
+        }
+
+        function updateInsuranceList() {
+            const list = document.getElementById('insuranceList');
+            list.innerHTML = '';
+            
+            insurances.forEach((insurance, index) => {
+                const item = document.createElement('div');
+                item.className = 'list-item';
+                item.innerHTML = `
+                    <div class="list-item-content">${insurance.type}: ${insurance.value.toLocaleString()} บาท</div>
+                    <button type="button" class="remove-item" onclick="removeInsurance(${index})">×</button>
+                `;
+                list.appendChild(item);
+            });
         }
 
         function addChildAge() {
@@ -1544,6 +1897,7 @@
                     if (input.type === 'checkbox' || input.type === 'radio') {
                         return input.checked;
                     }
+                    if (input.disabled) return true; // Count disabled optional fields as filled
                     return input.value && input.value.trim() !== '';
                 });
                 
@@ -1565,8 +1919,8 @@
 
         function saveCustomerData() {
             // Validate customer types
-            if (selectedCustomerTypes.length < 2) {
-                showToast('กรุณาเลือกลักษณะลูกค้าอย่างน้อย 2 รายการ', 'warning');
+            if (selectedCustomerTypes.length === 0) {
+                showToast('กรุณาเลือกลักษณะลูกค้าอย่างน้อย 1 รายการ', 'warning');
                 return;
             }
             
@@ -1596,35 +1950,44 @@
         }
 
         function collectFormData() {
+            const occupationValue = document.getElementById('occupation').value;
+            const finalOccupation = occupationValue === 'other' ? 
+                document.getElementById('otherOccupation').value : occupationValue;
+                
+            const spouseOccupationValue = document.getElementById('spouseOccupation').value;
+            const finalSpouseOccupation = spouseOccupationValue === 'other' ? 
+                document.getElementById('otherSpouseOccupation').value : spouseOccupationValue;
+                
+            const childrenOccupationValue = document.getElementById('childrenOccupation').value;
+            const finalChildrenOccupation = childrenOccupationValue === 'other' ? 
+                document.getElementById('otherChildrenOccupation').value : childrenOccupationValue;
+            
             const kongsi = document.querySelector('input[name="kongsi"]:checked');
             
             return {
                 customer_id: document.getElementById('customerId').value,
                 full_name: document.getElementById('fullName').value,
                 nickname: document.getElementById('nickname').value,
-                managers: document.getElementById('managers').value,
+                manager: document.getElementById('manager').value,
                 customer_types: selectedCustomerTypes,
                 
                 // Personal Information
-                goals: document.getElementById('goals').value,
                 gender: document.getElementById('gender').value,
                 age: parseInt(document.getElementById('age').value) || 0,
                 marital_status: document.getElementById('maritalStatus').value,
-                occupation: document.getElementById('occupation').value,
+                occupation: finalOccupation,
                 net_income: parseInt(document.getElementById('netIncome').value) || 0,
                 employment_benefits: document.getElementById('employmentBenefits').value,
                 monthly_liabilities: parseInt(document.getElementById('monthlyLiabilities').value) || 0,
                 risk_appetite: document.getElementById('riskAppetite').value,
-                property_type: document.getElementById('propertyType').value,
-                property_value: parseInt(document.getElementById('propertyValue').value) || 0,
-                vehicle_type: document.getElementById('vehicleType').value,
-                vehicle_value: parseInt(document.getElementById('vehicleValue').value) || 0,
+                properties: [...properties],
+                vehicles: [...vehicles],
                 deposits: parseInt(document.getElementById('deposits').value) || 0,
                 bonds: parseInt(document.getElementById('bonds').value) || 0,
                 funds: parseInt(document.getElementById('funds').value) || 0,
                 credit_card_balance: parseInt(document.getElementById('creditCardBalance').value) || 0,
                 loan_balance: parseInt(document.getElementById('loanBalance').value) || 0,
-                life_insurance: document.getElementById('lifeInsurance').value,
+                insurances: [...insurances],
                 aum_ttb: parseInt(document.getElementById('aumTtb').value) || 0,
                 aum_other: parseInt(document.getElementById('aumOther').value) || 0,
                 lifestyle: document.getElementById('lifestyle').value,
@@ -1633,10 +1996,10 @@
                 
                 // Family Information
                 spouse_age: parseInt(document.getElementById('spouseAge').value) || 0,
-                spouse_occupation: document.getElementById('spouseOccupation').value,
+                spouse_occupation: finalSpouseOccupation,
                 children_count: parseInt(document.getElementById('childrenCount').value) || 0,
                 children_ages: [...childrenAges],
-                children_occupation: document.getElementById('childrenOccupation').value,
+                children_occupation: finalChildrenOccupation,
                 grandchildren_count: parseInt(document.getElementById('grandchildrenCount').value) || 0,
                 other_relatives: document.getElementById('otherRelatives').value,
                 decision_maker: document.getElementById('decisionMaker').value,
@@ -1694,7 +2057,9 @@
             else thresholds.income = 'high';
             
             // Asset threshold
-            const totalAssets = (data.property_value || 0) + (data.vehicle_value || 0) + 
+            const totalProperties = data.properties.reduce((sum, p) => sum + (p.value || 0), 0);
+            const totalVehicles = data.vehicles.reduce((sum, v) => sum + (v.value || 0), 0);
+            const totalAssets = totalProperties + totalVehicles + 
                               (data.deposits || 0) + (data.bonds || 0) + (data.funds || 0) +
                               (data.aum_ttb || 0) + (data.aum_other || 0);
             
@@ -2036,44 +2401,118 @@
             doc.setTextColor(100, 100, 100);
             doc.text('RH5 Customer Analysis System', 105, 30, { align: 'center' });
             
-            // Add customer information
-            doc.setFontSize(14);
-            doc.setTextColor(0, 0, 0);
-            doc.text('ข้อมูลลูกค้า', 20, 50);
+            let yPos = 50;
             
+            // Customer Summary Card
+            doc.setFillColor(240, 240, 240);
+            doc.rect(20, yPos, 170, 30, 'F');
+            doc.setFontSize(16);
+            doc.setTextColor(0, 0, 0);
+            doc.text('ข้อมูลสรุปลูกค้า', 25, yPos + 10);
+            
+            yPos += 35;
             doc.setFontSize(10);
             const formData = collectFormData();
-            const analysis = analyzeCustomerData(formData);
             
-            const customerInfo = [
-                [`Customer ID: ${formData.customer_id}`],
-                [`ชื่อ: ${formData.full_name}`],
-                [`ชื่อเล่น: ${formData.nickname}`],
-                [`อายุ: ${formData.age} ปี`],
-                [`อาชีพ: ${formData.occupation}`],
-                [`รายได้/ปี: ${formData.net_income.toLocaleString()} บาท`]
+            const summaryInfo = [
+                `Customer ID: ${formData.customer_id}`,
+                `ชื่อ: ${formData.full_name}`,
+                `ชื่อเล่น: ${formData.nickname}`,
+                `ผู้ดูแล: ${formData.manager}`,
+                `ลักษณะลูกค้า: ${formData.customer_types.join(', ')}`
             ];
             
-            let yPos = 60;
-            customerInfo.forEach(info => {
-                doc.text(info[0], 20, yPos);
+            summaryInfo.forEach(info => {
+                doc.text(info, 25, yPos);
                 yPos += 7;
             });
             
-            // Add analysis results
             yPos += 10;
-            doc.setFontSize(14);
-            doc.text('ผลการวิเคราะห์', 20, yPos);
+            
+            // Personal Information Card
+            doc.setFillColor(240, 240, 240);
+            doc.rect(20, yPos, 170, 80, 'F');
+            doc.setFontSize(16);
+            doc.text('ข้อมูลส่วนตัว', 25, yPos + 10);
+            
+            yPos += 20;
+            doc.setFontSize(10);
+            
+            const personalInfo = [
+                `เพศ: ${formData.gender === 'male' ? 'ชาย' : formData.gender === 'female' ? 'หญิง' : 'อื่นๆ'}`,
+                `อายุ: ${formData.age} ปี`,
+                `สถานภาพ: ${formData.marital_status === 'single' ? 'โสด' : formData.marital_status === 'married' ? 'สมรส' : formData.marital_status === 'divorced' ? 'หย่า' : 'หม้าย'}`,
+                `อาชีพ: ${formData.occupation}`,
+                `รายได้สุทธิ/ปี: ${formData.net_income.toLocaleString()} บาท`,
+                `สวัสดิการ: ${formData.employment_benefits}`,
+                `หนี้สินรายเดือน: ${formData.monthly_liabilities.toLocaleString()} บาท`,
+                `ระดับความเสี่ยงการลงทุน: ${formData.risk_appetite === 'low' ? 'ต่ำ' : formData.risk_appetite === 'medium' ? 'กลาง' : 'สูง'}`
+            ];
+            
+            personalInfo.forEach(info => {
+                if (yPos > 270) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                doc.text(info, 25, yPos);
+                yPos += 7;
+            });
+            
+            // Assets Information
+            yPos += 5;
+            doc.text('สินทรัพย์:', 25, yPos);
+            yPos += 7;
+            
+            // Properties
+            formData.properties.forEach(property => {
+                doc.text(`- อสังหาริมทรัพย์ (${property.type}): ${property.value.toLocaleString()} บาท`, 30, yPos);
+                yPos += 7;
+            });
+            
+            // Vehicles
+            formData.vehicles.forEach(vehicle => {
+                doc.text(`- ยานพาหนะ (${vehicle.type}): ${vehicle.value.toLocaleString()} บาท`, 30, yPos);
+                yPos += 7;
+            });
+            
+            // Other assets
+            const otherAssets = [
+                `เงินฝาก: ${formData.deposits.toLocaleString()} บาท`,
+                `หุ้นกู้: ${formData.bonds.toLocaleString()} บาท`,
+                `กองทุน: ${formData.funds.toLocaleString()} บาท`,
+                `AUM ttb: ${formData.aum_ttb.toLocaleString()} บาท`,
+                `AUM ที่อื่น: ${formData.aum_other.toLocaleString()} บาท`
+            ];
+            
+            otherAssets.forEach(asset => {
+                doc.text(`- ${asset}`, 30, yPos);
+                yPos += 7;
+            });
             
             yPos += 10;
+            
+            // Analysis Results Card
+            const analysis = analyzeCustomerData(formData);
+            
+            doc.setFillColor(240, 240, 240);
+            doc.rect(20, yPos, 170, 50, 'F');
+            doc.setFontSize(16);
+            doc.text('ผลการวิเคราะห์', 25, yPos + 10);
+            
+            yPos += 20;
             doc.setFontSize(10);
-            doc.text(`Risk Score: ${analysis.risk_score}/100`, 20, yPos);
-            yPos += 7;
-            doc.text(`ระดับลูกค้า: ${analysis.customer_level}`, 20, yPos);
-            yPos += 7;
-            doc.text(`ผลิตภัณฑ์แนะนำ: ${analysis.product_recommendations}`, 20, yPos);
-            yPos += 7;
-            doc.text(`วงเงินแนะนำ: ${analysis.suggested_amount}`, 20, yPos);
+            
+            const analysisInfo = [
+                `Risk Score: ${analysis.risk_score}/100`,
+                `ระดับลูกค้า: ${analysis.customer_level}`,
+                `ผลิตภัณฑ์แนะนำ: ${analysis.product_recommendations}`,
+                `วงเงินแนะนำ: ${analysis.suggested_amount}`
+            ];
+            
+            analysisInfo.forEach(info => {
+                doc.text(info, 25, yPos);
+                yPos += 7;
+            });
             
             // Add timestamp
             yPos += 15;
@@ -2085,6 +2524,12 @@
             doc.save(`customer-report-${formData.customer_id}.pdf`);
             showToast('สร้างรายงาน PDF สำเร็จ!');
         }
+
+        // ... (rest of the functions remain the same as in the previous version)
+        // The remaining functions (searchExistingCustomer, displaySearchResult, clearSearch, 
+        // loadCustomerForEdit, viewCustomerDetail, searchCustomers, displayCoachResults, 
+        // clearCoachSearch, addCoachComment, saveCoachComment, generateReport, 
+        // displayAdminResults, exportToExcel, showToast) remain unchanged from the previous version
 
         function searchExistingCustomer() {
             const searchTerm = document.getElementById('employeeSearchInput').value.trim();
@@ -2161,11 +2606,23 @@
                 return;
             }
             
+            // Reset dynamic lists
+            properties = customer.properties || [];
+            vehicles = customer.vehicles || [];
+            insurances = customer.insurances || [];
+            childrenAges = customer.children_ages || [];
+            
+            // Update UI lists
+            updatePropertyList();
+            updateVehicleList();
+            updateInsuranceList();
+            updateChildrenList();
+            
             // Populate form with customer data
             document.getElementById('customerId').value = customer.customer_id;
             document.getElementById('fullName').value = customer.full_name;
             document.getElementById('nickname').value = customer.nickname;
-            document.getElementById('managers').value = customer.managers;
+            document.getElementById('manager').value = customer.manager;
             
             // Reset and set customer types
             selectedCustomerTypes = customer.customer_types || [];
@@ -2177,25 +2634,30 @@
             });
             
             // Personal Information
-            document.getElementById('goals').value = customer.goals;
             document.getElementById('gender').value = customer.gender;
             document.getElementById('age').value = customer.age;
             document.getElementById('maritalStatus').value = customer.marital_status;
-            document.getElementById('occupation').value = customer.occupation;
+            
+            // Handle occupation
+            const occupationOptions = ['business_owner', 'employee', 'government', 'freelance', 'merchant'];
+            if (occupationOptions.includes(customer.occupation)) {
+                document.getElementById('occupation').value = customer.occupation;
+                document.getElementById('otherOccupationContainer').style.display = 'none';
+            } else {
+                document.getElementById('occupation').value = 'other';
+                document.getElementById('otherOccupationContainer').style.display = 'block';
+                document.getElementById('otherOccupation').value = customer.occupation;
+            }
+            
             document.getElementById('netIncome').value = customer.net_income;
             document.getElementById('employmentBenefits').value = customer.employment_benefits;
             document.getElementById('monthlyLiabilities').value = customer.monthly_liabilities;
             document.getElementById('riskAppetite').value = customer.risk_appetite;
-            document.getElementById('propertyType').value = customer.property_type;
-            document.getElementById('propertyValue').value = customer.property_value;
-            document.getElementById('vehicleType').value = customer.vehicle_type;
-            document.getElementById('vehicleValue').value = customer.vehicle_value;
             document.getElementById('deposits').value = customer.deposits;
             document.getElementById('bonds').value = customer.bonds;
             document.getElementById('funds').value = customer.funds;
             document.getElementById('creditCardBalance').value = customer.credit_card_balance;
             document.getElementById('loanBalance').value = customer.loan_balance;
-            document.getElementById('lifeInsurance').value = customer.life_insurance;
             document.getElementById('aumTtb').value = customer.aum_ttb;
             document.getElementById('aumOther').value = customer.aum_other;
             document.getElementById('lifestyle').value = customer.lifestyle;
@@ -2204,11 +2666,31 @@
             
             // Family Information
             document.getElementById('spouseAge').value = customer.spouse_age;
-            document.getElementById('spouseOccupation').value = customer.spouse_occupation;
+            
+            // Handle spouse occupation
+            const spouseOccupationOptions = ['business_owner', 'employee', 'government', 'freelance', 'merchant', 'housewife', 'retired'];
+            if (spouseOccupationOptions.includes(customer.spouse_occupation)) {
+                document.getElementById('spouseOccupation').value = customer.spouse_occupation;
+                document.getElementById('otherSpouseOccupationContainer').style.display = 'none';
+            } else {
+                document.getElementById('spouseOccupation').value = 'other';
+                document.getElementById('otherSpouseOccupationContainer').style.display = 'block';
+                document.getElementById('otherSpouseOccupation').value = customer.spouse_occupation;
+            }
+            
             document.getElementById('childrenCount').value = customer.children_count;
-            childrenAges = customer.children_ages || [];
-            updateChildrenList();
-            document.getElementById('childrenOccupation').value = customer.children_occupation;
+            
+            // Handle children occupation
+            const childrenOccupationOptions = ['student', 'business_owner', 'employee', 'government', 'freelance', 'merchant'];
+            if (childrenOccupationOptions.includes(customer.children_occupation)) {
+                document.getElementById('childrenOccupation').value = customer.children_occupation;
+                document.getElementById('otherChildrenOccupationContainer').style.display = 'none';
+            } else {
+                document.getElementById('childrenOccupation').value = 'other';
+                document.getElementById('otherChildrenOccupationContainer').style.display = 'block';
+                document.getElementById('otherChildrenOccupation').value = customer.children_occupation;
+            }
+            
             document.getElementById('grandchildrenCount').value = customer.grandchildren_count;
             document.getElementById('otherRelatives').value = customer.other_relatives;
             document.getElementById('decisionMaker').value = customer.decision_maker;
