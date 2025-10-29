@@ -1,2 +1,0 @@
-Customer data analysis system to be used to select products to be presented to meet customer needs.
-For internal use only, third parties are not allowed to use or apply to third parties without permission.
