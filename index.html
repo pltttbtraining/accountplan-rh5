@@ -83,6 +83,21 @@
             flex: 1;
         }
 
+        .nav-button {
+            background: none;
+            border: none;
+            font-size: 17px;
+            color: var(--primary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--radius-md);
+            transition: background 0.2s ease;
+        }
+
+        .nav-button:active {
+            background: var(--background);
+        }
+
         .ios-button {
             background: var(--primary);
             color: white;
@@ -460,6 +475,52 @@
             font-weight: 600;
         }
 
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .modal-message {
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-actions .ios-button {
+            flex: 1;
+        }
+
         /* Toast */
         .ios-toast {
             position: fixed;
@@ -542,7 +603,9 @@
         <!-- Header -->
         <div class="ios-header">
             <div class="ios-navbar">
+                <button class="nav-button" id="backButton" style="display: none;">⬅️ ย้อนกลับ</button>
                 <div class="ios-title" id="pageTitle">ระบบวิเคราะห์ลูกค้า</div>
+                <button class="nav-button" id="homeButton" style="display: none;">🏠 หน้าหลัก</button>
             </div>
         </div>
 
@@ -850,6 +913,7 @@
         let currentRole = '';
         let selectedCustomerType = '';
         let allCustomers = JSON.parse(localStorage.getItem('customerData') || '[]');
+        let navigationHistory = [];
 
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
@@ -870,6 +934,10 @@
         function setupEventListeners() {
             // Welcome screen
             document.getElementById('enterButton').addEventListener('click', enterSystem);
+            
+            // Navigation buttons
+            document.getElementById('backButton').addEventListener('click', goBack);
+            document.getElementById('homeButton').addEventListener('click', goHome);
             
             // Role selection
             document.querySelectorAll('.role-card').forEach(card => {
@@ -915,9 +983,132 @@
                     mainApp.style.opacity = '1';
                 }, 50);
             }, 300);
+            
+            // Add to navigation history
+            navigationHistory.push('roleSelection');
+        }
+
+        function goBack() {
+            if (navigationHistory.length > 1) {
+                // Remove current page from history
+                navigationHistory.pop();
+                
+                // Get previous page
+                const previousPage = navigationHistory[navigationHistory.length - 1];
+                
+                // Navigate to previous page
+                if (previousPage === 'roleSelection') {
+                    showRoleSelection();
+                } else if (previousPage.startsWith('role-')) {
+                    const role = previousPage.split('-')[1];
+                    selectRole(role);
+                }
+            } else {
+                // If no history, go to role selection
+                showRoleSelection();
+            }
+        }
+
+        function goHome() {
+            // Always go to role selection
+            showRoleSelection();
+            
+            // Reset navigation history
+            navigationHistory = ['roleSelection'];
+        }
+
+        function showRoleSelection() {
+            // Hide all content areas
+            document.querySelectorAll('.content-area').forEach(area => {
+                area.classList.remove('active');
+            });
+            
+            // Show role selection
+            document.getElementById('roleSelection').style.display = 'block';
+            
+            // Update page title
+            document.getElementById('pageTitle').textContent = 'ระบบวิเคราะห์ลูกค้า';
+            
+            // Hide navigation buttons
+            document.getElementById('backButton').style.display = 'none';
+            document.getElementById('homeButton').style.display = 'none';
+            
+            // Reset current role
+            currentRole = '';
         }
 
         function selectRole(role) {
+            // Add to navigation history
+            navigationHistory.push(`role-${role}`);
+            
+            // Show navigation buttons
+            document.getElementById('backButton').style.display = 'block';
+            document.getElementById('homeButton').style.display = 'block';
+            
+            // Check if role requires authentication
+            if (role === 'coach' || role === 'admin') {
+                showAuthenticationModal(role);
+            } else {
+                // Employee role doesn't require authentication
+                proceedToRole(role);
+            }
+        }
+
+        function showAuthenticationModal(role) {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            
+            let question, correctAnswer, placeholder;
+            
+            if (role === 'coach') {
+                question = "ใครส่งเธอมา?";
+                correctAnswer = "arm";
+                placeholder = "กรอกรหัสผ่าน...";
+            } else if (role === 'admin') {
+                question = "รหัสลับนาตาชา";
+                correctAnswer = "1212312121";
+                placeholder = "กรอกรหัสผ่าน...";
+            }
+            
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3 class="modal-title">การยืนยันตัวตน</h3>
+                    <p class="modal-message">${question}</p>
+                    <div class="ios-form-group">
+                        <input type="password" class="ios-input" id="authPassword" placeholder="${placeholder}">
+                    </div>
+                    <div class="modal-actions">
+                        <button class="ios-button ios-button-secondary" onclick="this.closest('.modal-overlay').remove()">ยกเลิก</button>
+                        <button class="ios-button" onclick="verifyAuthentication('${role}', '${correctAnswer}', this)">ยืนยัน</button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Focus on input
+            setTimeout(() => {
+                document.getElementById('authPassword').focus();
+            }, 100);
+        }
+
+        function verifyAuthentication(role, correctAnswer, button) {
+            const passwordInput = document.getElementById('authPassword');
+            const enteredPassword = passwordInput.value.trim();
+            
+            if (enteredPassword === correctAnswer) {
+                // Correct password
+                button.closest('.modal-overlay').remove();
+                proceedToRole(role);
+            } else {
+                // Incorrect password
+                showToast('รหัสผ่านไม่ถูกต้อง', 'error');
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+
+        function proceedToRole(role) {
             currentRole = role;
             
             // Update UI
@@ -925,6 +1116,9 @@
                 card.classList.remove('active');
             });
             document.querySelector(`[data-role="${role}"]`).classList.add('active');
+            
+            // Hide role selection
+            document.getElementById('roleSelection').style.display = 'none';
             
             // Show relevant content
             document.querySelectorAll('.content-area').forEach(area => {
@@ -1305,7 +1499,7 @@
                 <div class="ios-card" style="max-width: 500px; width: 100%; max-height: 80vh; overflow-y: auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <h3 style="margin: 0;">รายละเอียดลูกค้า</h3>
-                        <button onclick="this.closest('.ios-modal').remove()" style="background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
+                        <button onclick="this.closest('.modal-overlay').remove()" style="background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
                     </div>
                     <div style="display: grid; gap: 12px;">
                         ${Object.entries(customer).map(([key, value]) => `
